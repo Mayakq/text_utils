@@ -6,6 +6,8 @@ mod regex {
     fn delete_duplicates() {
         let vector = vec!["1".to_string(), "1".to_string(), "3".to_string(), "4".to_string()].clone();
         assert_eq!(vector, vec!["1".to_string(), "1".to_string(), "3".to_string(), "4".to_string()]);
+        let vector = ["1", "1", "3", "4"];
+        assert_eq!(vector, ["1", "1", "3", "4"]);
     }
     #[test]
     fn get_regex_result() {
