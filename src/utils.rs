@@ -12,12 +12,13 @@ pub trait ExtractRegexArray {
 pub trait DeleteDuplicate {
     fn delete(self) -> Vec<String>;
 }
-impl DeleteDuplicate for Vec<String> {
+impl DeleteDuplicate for &[&str] {
     fn delete(self) -> Vec<String> {
         let mut vec: Vec<String> = Vec::with_capacity(self.len());
         for str in self {
-            if !vec.contains(&str) {
-                vec.push(str);
+            let str = &str.to_string();
+            if !vec.contains(str) {
+                vec.push(str.clone());
             }
         }
         vec
