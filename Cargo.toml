@@ -1,6 +1,5 @@
 [dependencies.regex]
 version = "1.11.1"
-
 [lib]
 name = "text_utils_s"
 path = "src/lib.rs"
@@ -13,12 +12,12 @@ autoexamples = false
 autotests = false
 build = false
 categories = ["text-editors"]
-description = "Crate for edit String. Example delete duplicate in array. Clear string"
+description = "Crate for edit array. Example delete duplicate in array. Clear string"
 documentation = "https://docs.rs/text_utils_s"
-edition = "2021"
+edition = "2024"
 keywords = ["duplicate"]
 license = "MIT"
 name = "text_utils_s"
 readme = "README.md"
 repository = "https://github.com/Mayakq/text_utils"
-version = "0.1.2"
+version = "0.1.3"

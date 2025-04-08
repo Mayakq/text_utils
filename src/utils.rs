@@ -1,4 +1,5 @@
 use regex::Regex;
+use std::collections::{BTreeSet, HashSet};
 
 pub trait Clear {
     fn clear(_: &mut String);
@@ -9,20 +10,7 @@ pub trait ExtractRegexStr {
 pub trait ExtractRegexArray {
     fn extract_regex(&self, regex: &Regex) -> Option<Vec<String>>;
 }
-pub trait DeleteDuplicate {
-    fn delete(self) -> Vec<String>;
-}
-impl DeleteDuplicate for Vec<String> {
-    fn delete(self) -> Vec<String> {
-        let mut vec: Vec<String> = Vec::with_capacity(self.len());
-        for str in self {
-            if !vec.contains(&str) {
-                vec.push(str);
-            }
-        }
-        vec
-    }
-}
+
 impl ExtractRegexArray for [String] {
     ///
     ///
@@ -36,6 +24,7 @@ impl ExtractRegexArray for [String] {
     ///
     /// ```
     ///  use regex::Regex;
+    ///  use text_utils_s::utils::ExtractRegexArray;
     ///  let re = Regex::new(r"(\d{4})-(\d{2})-(\d{2})").unwrap();
     ///  let string = vec!["d-2010-03-14".to_string(), "d-2010-03-25".to_string()].extract_regex(&re).unwrap();
     ///  let ok_result = vec!["2010-03-14", "2010-03-25"];
@@ -69,6 +58,7 @@ impl ExtractRegexStr for str {
     ///
     /// ```
     /// use regex::Regex;
+    /// use text_utils_s::utils::ExtractRegexStr;
     /// let re = Regex::new(r"(\d{4})-(\d{2})-(\d{2})").unwrap();
     /// let string = "d-2010-03-14".extract_regex(&re).unwrap();
     /// let ok_result = "2010-03-14";
@@ -95,4 +85,101 @@ impl Clear for String {
     fn clear(string: &mut String) {
         string.replace_range(0..string.len(), "")
     }
+}
+
+/// Returned sorted iterator
+/// Time: O(n log n)
+/// Memory: O(n)
+/// Use if you are needed sorted result
+/// # Arguments
+///
+/// * `array`:  impl IntoIterator,
+///
+/// returns:  impl IntoIterator + Sized
+///
+/// # Examples
+///
+/// ```
+///  use text_utils_s::utils::unique_sorted;
+///  let vector = vec!["1", "8", "1", "3", "4"].clone();
+///  let result = unique_sorted(vector.clone())
+///     .into_iter()
+///     .collect::<Vec<_>>();
+///  assert_eq!(
+///     result,
+///     vec![
+///         "1".to_string(),
+///         "3".to_string(),
+///         "4".to_string(),
+///         "8".to_string(),
+///     ]
+///  );
+///
+/// ```
+pub fn unique_sorted<T: Ord>(array: impl IntoIterator<Item = T>) -> impl IntoIterator<Item = T> {
+    let set = BTreeSet::from_iter(array);
+    set.into_iter()
+}
+/// Use if you aren't needed sorted result. Elements will be in a chaotic order.
+/// Time: O(n)
+/// Memory: O(n)
+/// # Arguments
+///
+/// * `array`: impl IntoIterator
+///
+/// returns: impl IntoIterator + Sized
+///
+/// # Examples
+/// ```
+///  use text_utils_s::utils::unique_ch;
+///  let vector = vec!["1", "8", "1", "3", "4"].clone();
+///  let result = unique_ch(vector.clone()).into_iter().collect::<Vec<_>>();
+///  for _ in 0..result.len() - 1 {
+///     assert_eq!(result.contains(&"4"), true);
+///     assert_eq!(result.contains(&"8"), true);
+///     assert_eq!(result.contains(&"3"), true);
+///     assert_eq!(result.contains(&"1"), true);
+///     }
+///  }
+///
+/// ```
+pub fn unique_ch<T: Ord + std::hash::Hash>(
+    array: impl IntoIterator<Item = T>,
+) -> impl IntoIterator<Item = T> {
+    let mut set = HashSet::new();
+    for value in array {
+        set.insert(value);
+    }
+    set.into_iter()
+}
+///
+/// Use if are you needed saved order. Use if you are having few elements
+/// Time: O(n²)
+/// Space: O(n)
+/// # Arguments
+///
+/// * `array`: impl IntoIterator
+///
+/// returns: impl IntoIterator + Sized
+///
+/// # Examples
+///
+/// ```
+///  use text_utils_s::utils::unique;
+///
+///  fn delete_duplicates_vector() {
+///     let vector = vec!["1", "8", "1", "3", "4"].clone();
+///     let result = unique(vector.clone()).into_iter().collect::<Vec<_>>();
+///     assert_eq!(result, vec!["1", "8", "3", "4",]);
+///  }
+///
+/// ```
+pub fn unique<T: PartialEq>(array: impl IntoIterator<Item = T>) -> impl IntoIterator<Item = T> {
+    let mut vec = Vec::new();
+    for value in array {
+        if !vec.contains(&value) {
+            vec.push(value)
+        }
+    }
+    vec.into_iter()
 }
