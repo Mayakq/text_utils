@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod regex {
-    use crate::utils::{unique, unique_ch, unique_sorted, ExtractRegexArray, ExtractRegexStr};
+    use crate::utils::{ExtractRegexArray, ExtractRegexStr, unique, unique_ch, unique_sorted};
     use regex::Regex;
     #[test]
     fn delete_duplicates_btree() {
@@ -31,7 +31,7 @@ mod regex {
     }
     #[test]
     fn delete_duplicates_vector() {
-        let vector = vec!["1", "8", "1", "3", "4"].clone();
+        let vector = vec!["1", "8", "1", "3", "4"];
         let result = unique(vector.clone()).into_iter().collect::<Vec<_>>();
         assert_eq!(result, vec!["1", "8", "3", "4",]);
     }

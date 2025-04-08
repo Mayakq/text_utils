@@ -155,7 +155,7 @@ pub fn unique_ch<T: Ord + std::hash::Hash>(
 ///
 /// Use if are you needed saved order. Use if you are having few elements
 /// Time: O(n²)
-/// Space: O(n)
+/// Memory: O(n)
 /// # Arguments
 ///
 /// * `array`: impl IntoIterator
