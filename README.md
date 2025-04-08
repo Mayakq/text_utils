@@ -1,4 +1,4 @@
-[![Crate](https://img.shields.io/crates/v/rdev.svg)](https://crates.io/crates/text_utils_s)
+[![Crate]](https://crates.io/crates/text_utils_s)
 
 # Extension for default type. You are can extract regular expression from array.
 
