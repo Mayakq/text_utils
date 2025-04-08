@@ -1,4 +1,6 @@
-### Extension for default type. You are can extract regular expression from array.
+[![Crate](https://img.shields.io/crates/v/rdev.svg)](https://crates.io/crates/text_utils_s)
+
+# Extension for default type. You are can extract regular expression from array.
 
 ````rust
 let re = Regex::new(r"(\d{4})-(\d{2})-(\d{2})").unwrap();
